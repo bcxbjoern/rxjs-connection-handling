@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ConversationApi } from './conversation.api';
-import {BehaviorSubject, Observable} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConversationService {
-  private readonly accessToken$: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null)
+  private readonly accessToken$: BehaviorSubject<number | null> = new BehaviorSubject<
+    number | null
+  >(null);
   constructor(private readonly conversationApi: ConversationApi) {
-    conversationApi.getAccessToken().subscribe(accessToken => {
-      this.accessToken$.next(accessToken)
-    })
+    conversationApi.getAccessToken().subscribe((accessToken) => {
+      this.accessToken$.next(accessToken);
+    });
   }
 }
