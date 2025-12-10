@@ -3,6 +3,13 @@
 
 <main class="main">
   <div class="content">
-    current token: {{token$ | async | json}}
+    <div class="token">
+      current token: {{token$ | async}}
+    </div>
+    <ul class="messages">
+      @for (msg of (messages$ | async); track msg) {
+        <li class="message">{{ msg }}</li>
+      }
+    </ul>
   </div>
 </main>

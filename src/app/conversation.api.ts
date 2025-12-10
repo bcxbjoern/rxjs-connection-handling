@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, of, timer } from 'rxjs';
+import { expand, interval, map, Observable, of, shareReplay, switchMap, timer } from 'rxjs';
 import { err, ok, Result } from 'neverthrow';
 
 export interface AccessToken {
@@ -11,6 +11,13 @@ export interface AccessToken {
   providedIn: 'root',
 })
 export class ConversationApi {
+  private msgs: Observable<string[]> = of<string[]>(['hello :)']).pipe(
+    expand((msgs) =>
+      timer(1000).pipe(switchMap(() => of(msgs.concat([Math.random().toPrecision(5)])))),
+    ),
+    shareReplay(1),
+  );
+
   constructor() {}
 
   public getAccessToken(): Observable<string> {
@@ -22,7 +29,7 @@ export class ConversationApi {
     return timer(delay).pipe(map(() => Math.random().toPrecision(2)));
   }
 
-  getConversation(token: string): Observable<Array<string>> {
-    return of([]);
+  getConversation(token: string): Observable<string[]> {
+    return this.msgs;
   }
 }

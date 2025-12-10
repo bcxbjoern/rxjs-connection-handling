@@ -12,4 +12,5 @@ export class App {
   protected readonly title = signal('react-playground');
   conversationService = inject(ConversationService);
   protected token$ = this.conversationService.token$;
+  protected messages$ = this.conversationService.conversation$;
 }

@@ -9,6 +9,7 @@ export class ConversationService {
   private readonly conversationApi = inject(ConversationApi);
 
   private readonly isRunning$ = new BehaviorSubject<boolean>(true);
+
   readonly token$: Observable<string> = this.isRunning$.pipe(
     switchMap((isRunning) => {
       if (!isRunning) {
@@ -17,13 +18,13 @@ export class ConversationService {
       return this.conversationApi
         .getAccessToken()
         .pipe(
-          expand((previousToken) => this.conversationApi.refreshAccessToken(previousToken, 1000)),
+          expand((previousToken) => this.conversationApi.refreshAccessToken(previousToken, 5000)),
         );
     }),
     shareReplay(1),
   );
 
-  readonly conversation$: Observable<Array<string>> = this.token$.pipe(
+  public readonly conversation$: Observable<Array<string>> = this.token$.pipe(
     switchMap((token) => {
       return this.conversationApi.getConversation(token);
     }),
