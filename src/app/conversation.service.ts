@@ -23,12 +23,11 @@ export class ConversationService {
     shareReplay(1),
   );
 
-  /*readonly conversation$ = this.token$.pipe(
-    switchMap(token => {
-        return this.conversationApi.getConversation(token);
-      }
-    )
-  )*/
+  readonly conversation$: Observable<Array<string>> = this.token$.pipe(
+    switchMap((token) => {
+      return this.conversationApi.getConversation(token);
+    }),
+  );
 
   constructor(conversationApi: ConversationApi) {
     this.conversationApi = conversationApi;

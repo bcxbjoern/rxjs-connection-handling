@@ -21,4 +21,8 @@ export class ConversationApi {
   public refreshAccessToken(token: string, delay: number = 0): Observable<string> {
     return timer(delay).pipe(map(() => Math.random().toPrecision(2)));
   }
+
+  getConversation(token: string): Observable<Array<string>> {
+    return of([]);
+  }
 }
