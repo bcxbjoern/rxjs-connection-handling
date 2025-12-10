@@ -4,10 +4,10 @@
 <main class="main">
   <div class="content">
     <div class="token">
-      current token: {{token$ | async}}
+      current token: {{token()}}
     </div>
     <ul class="messages">
-      @for (msg of (messages$ | async); track msg) {
+      @for (msg of messages(); track msg) {
         <li class="message">{{ msg }}</li>
       }
     </ul>
