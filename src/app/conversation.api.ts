@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of, timer } from 'rxjs';
 import { err, ok, Result } from 'neverthrow';
 
 export interface AccessToken {
@@ -13,29 +13,12 @@ export interface AccessToken {
 export class ConversationApi {
   constructor() {}
 
-  public getAccessToken(): Observable<Result<AccessToken, string>> {
-    if (Math.random() < 0.0) {
-      return of(err('Failed to get access token'));
-    }
-
-    const token: AccessToken = {
-      token: Math.random().toPrecision(2).toString(),
-      expires_in: 60,
-    };
-
-    return of(ok(token));
+  public getAccessToken(): Observable<string> {
+    const token = Math.random().toPrecision(2);
+    return of(token);
   }
 
-  public refreshAccessToken(token: string): Observable<Result<AccessToken, string>> {
-    if (Math.random() < 0.0) {
-      return of(err('Failed to refresh access token'));
-    }
-
-    const newToken: AccessToken = {
-      token: token,
-      expires_in: 60,
-    };
-
-    return of(ok(newToken));
+  public refreshAccessToken(token: string, delay: number = 0): Observable<string> {
+    return timer(delay).pipe(map(() => Math.random().toPrecision(2)));
   }
 }
