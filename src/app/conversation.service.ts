@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ConversationApi } from './conversation.api';
 import { BehaviorSubject, EMPTY, expand, Observable, shareReplay, switchMap } from 'rxjs';
 
@@ -6,7 +6,7 @@ import { BehaviorSubject, EMPTY, expand, Observable, shareReplay, switchMap } fr
   providedIn: 'root',
 })
 export class ConversationService {
-  private readonly conversationApi: ConversationApi;
+  private readonly conversationApi = inject(ConversationApi);
 
   private readonly isRunning$ = new BehaviorSubject<boolean>(true);
   readonly token$: Observable<string> = this.isRunning$.pipe(
@@ -28,8 +28,4 @@ export class ConversationService {
       return this.conversationApi.getConversation(token);
     }),
   );
-
-  constructor(conversationApi: ConversationApi) {
-    this.conversationApi = conversationApi;
-  }
 }
